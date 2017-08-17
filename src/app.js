@@ -35,7 +35,11 @@ app.use('/', feathers.static(app.get('public')));
 // Set up Plugins and providers
 app.configure(hooks());
 
-app.configure(socketio());
+app.configure(socketio(function (io) {
+  io.on('connection', () => {
+    io.emit('trigger', 'connection')
+  })
+}));
 
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
